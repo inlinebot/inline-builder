@@ -22,7 +22,7 @@ const templateString = `{
     [
       {
         "type": "docker-tag",
-        "repository": "inlinebot/module-<%= repository %>",
+        "repository": "inlinebot/module-<%= moduleName %>",
         "tag": "latest",
         "force": true
       },
@@ -39,13 +39,13 @@ const templateString = `{
 
 const template = ejs.compile(templateString);
 
-module.exports = (username, repository) => {
+module.exports = (username, repository, moduleName) => {
   const dockerHub = {
     email: process.env.DOCKERHUB_EMAIL,
     username: process.env.DOCKERHUB_USERNAME,
     password: process.env.DOCKERHUB_PASSWORD
   };
-  fs.writeFileSync(`module-${repository}.json`, template({ username, repository, dockerHub }));
-  execSync(`packer build module-${repository}.json`, { stdio:[0,1,2] });
-  fs.unlinkSync(`module-${repository}.json`);
+  fs.writeFileSync(`module-${moduleName}.json`, template({ username, repository, dockerHub, moduleName }));
+  execSync(`packer build module-${moduleName}.json`, { stdio:[0,1,2] });
+  fs.unlinkSync(`module-${moduleName}.json`);
 };

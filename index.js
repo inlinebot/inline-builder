@@ -2,7 +2,7 @@ const express = require('express');
 const request = require('superagent');
 const app = express();
 pushToDockerhub = require('./push-to-dockerhub');
-app.get('/:username/:repository', (req, res) => {
+app.get('build', (req, res) => {
   if (process.env.ACCESS_KEY != req.query.accessKey) {
     res.send({ message: 'Unauthorized '});
     return;
@@ -10,11 +10,11 @@ app.get('/:username/:repository', (req, res) => {
   res.send({ message: 'Build script started' });
   console.log('requested');
   try {
-    pushToDockerhub(req.params.username, req.params.repository);
+    pushToDockerhub(req.query.username, req.query.repository, req.query.moduleName);
     console.log('success');
-    request.get(`${req.query.callback}/${req.params.username}/${req.params.repository}?status=success`).end();
+    request.get(`${req.query.callback}/${req.query.moduleName}?status=built`).end();
   } catch (e) {
-    request.get(`${req.query.callback}/${req.params.username}/${req.params.repository}?status=error`).end();
+    request.get(`${req.query.callback}/${req.query.moduleName}?status=error`).end();
     console.log('error');
   }
 })
