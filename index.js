@@ -1,6 +1,19 @@
-
-require('./push-to-dockerhub')('jitta', 'spinal');
-
-/*
-DOCKERHUB_EMAIL=panjmp@gmail.com DOCKERHUB_USERNAME=panj DOCKERHUB_PASSWORD=Abcd6712 node index.js
-*/
+const express = require('express');
+const request = require('superagent');
+const app = express();
+pushToDockerhub = require('./push-to-dockerhub');
+app.get('/:username/:repository', (req, res) => {
+  res.send({ message: 'Build script started' });
+  console.log('requested');
+  try {
+    pushToDockerhub(req.params.username, req.params.repository);
+    console.log('success');
+    request.get(`${req.query.callback}/${req.params.username}/${req.params.repository}?status=success`).end();
+  } catch (e) {
+    request.get(`${req.query.callback}/${req.params.username}/${req.params.repository}?status=error`).end();
+    console.log('error');
+  }
+})
+app.listen(process.env.PORT, () => {
+  console.log(`Listening to port ${process.env.PORT}!`);
+});

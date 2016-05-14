@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/inlinebot/inline-builder",
   "dependencies": {
-    "ejs": "^2.4.1"
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "superagent": "^1.8.3"
   }
 }
