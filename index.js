@@ -2,7 +2,7 @@ const express = require('express');
 const request = require('superagent');
 const app = express();
 pushToDockerhub = require('./push-to-dockerhub');
-app.get('build', (req, res) => {
+app.get('/build', (req, res) => {
   if (process.env.ACCESS_KEY != req.query.accessKey) {
     res.send({ message: 'Unauthorized '});
     return;
