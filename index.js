@@ -3,6 +3,10 @@ const request = require('superagent');
 const app = express();
 pushToDockerhub = require('./push-to-dockerhub');
 app.get('/:username/:repository', (req, res) => {
+  if (process.env.ACCESS_KEY != req.query.accessKey) {
+    res.send({ message: 'Unauthorized '});
+    return;
+  }
   res.send({ message: 'Build script started' });
   console.log('requested');
   try {
