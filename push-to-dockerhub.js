@@ -12,8 +12,8 @@ const templateString = `{
     {
       "type": "shell",
       "inline": [
-        "git clone https://github.com/<%= username %>/<%= repository %>.git",
-        "cd <%= repository %>",
+        "git clone https://github.com/<%= username %>/<%= repository %>.git <%= moduleName %>",
+        "cd <%= moduleName %>",
         "npm install"
       ]
     }
