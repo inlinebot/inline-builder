@@ -16,7 +16,7 @@ app.get('/build', (req, res) => {
     console.log('built');
     request.get(`${req.query.callback}/${req.query.moduleName}?status=deploying`).end();
     deployToRancher(req.query.moduleName, req.query.new === 'true').then(() => {
-      console.log('deployed')
+      console.log('deployed');
       request.get(`${req.query.callback}/${req.query.moduleName}?status=live`).end();
     }).catch((e) => {
       throw e;
