@@ -7,7 +7,8 @@ const templateString = `{
     "type": "docker",
     "image": "node:5",
     "export_path": "image.tar",
-    "login": false
+    "commit": true,
+    "discard": true
   }],
   "provisioners":[
     {
@@ -22,7 +23,7 @@ const templateString = `{
   "post-processors": [
     [
       {
-        "type": "docker-import",
+        "type": "docker-tag",
         "repository": "inlinebot/module-<%= repository %>",
         "tag": "latest"
       },
