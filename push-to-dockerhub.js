@@ -6,7 +6,7 @@ const templateString = `{
   "builders":[{
     "type": "docker",
     "image": "node:5",
-    "commit": true,
+    "commit": true
   }],
   "provisioners":[
     {
