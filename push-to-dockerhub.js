@@ -6,9 +6,7 @@ const templateString = `{
   "builders":[{
     "type": "docker",
     "image": "node:5",
-    "export_path": "image.tar",
     "commit": true,
-    "discard": true
   }],
   "provisioners":[
     {
