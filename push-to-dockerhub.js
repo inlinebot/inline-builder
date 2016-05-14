@@ -23,7 +23,8 @@ const templateString = `{
       {
         "type": "docker-tag",
         "repository": "inlinebot/module-<%= repository %>",
-        "tag": "latest"
+        "tag": "latest",
+        "force": true
       },
       {
         "type": "docker-push",
