@@ -15,7 +15,7 @@ app.get('/build', (req, res) => {
     pushToDockerhub(req.query.username, req.query.repository, req.query.moduleName);
     console.log('built');
     request.get(`${req.query.callback}/${req.query.moduleName}?status=deploying`).end();
-    deployToRancher(req.query).then(() => {
+    deployToRancher(req.query.moduleName, req.query.new === 'true').then(() => {
       console.log('deployed')
       request.get(`${req.query.callback}/${req.query.moduleName}?status=live`).end();
     }).catch((e) => {
@@ -28,13 +28,14 @@ app.get('/build', (req, res) => {
 });
 
 app.get('/deploy', (req, res) => {
-  deployToRancher(req.query.moduleName, true).then(() => {
+  console.log(req.query);
+  res.send({ message: 'deploying' });
+  deployToRancher(req.query.moduleName, req.query.new === 'true').then(() => {
     console.log('deployed');
-    // request.get(`${req.query.callback}/${req.query.moduleName}?status=live`).end();
+    request.get(`${req.query.callback}/${req.query.moduleName}?status=live`).end();
   }).catch((e) => {
-    console.log(e);
-    res.send(e);
-    throw e;
+    console.log('error');
+    request.get(`${req.query.callback}/${req.query.moduleName}?status=error`).end();
   });
 });
 app.listen(process.env.PORT, () => {
