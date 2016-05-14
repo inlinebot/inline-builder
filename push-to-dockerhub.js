@@ -48,5 +48,5 @@ module.exports = (username, repository) => {
   };
   fs.writeFileSync(`module-${repository}.json`, template({ username, repository, dockerHub }));
   execSync(`packer build module-${repository}.json`, { stdio:[0,1,2] });
-  fs.unlinkSync(`${repository}.json`);
+  fs.unlinkSync(`module-${repository}.json`);
 };
